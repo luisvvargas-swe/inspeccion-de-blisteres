@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f1">
+  <meta name="description" content="Inspecciona tabletas en muestras sintéticas de blísteres con el simulador de visión artificial de Luis Vargas.">
+  <title>Inspección de blísteres · Luis Vargas</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="stylesheet" href="estilos.css">
+  <script src="inspeccion.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <header>
+      <a href="https://luisvvargas-swe.github.io/#proyectos">← Portafolio de Luis Vargas</a>
+      <a href="https://github.com/luisvvargas-swe/inspeccion-de-blisteres">Código en GitHub ↗</a>
+    </header>
+    <main>
+      <p class="eyebrow">Visión artificial</p>
+      <h1>Inspección de blísteres<span>.</span></h1>
+      <p class="intro">Elige una muestra y observa dónde se detectan una cavidad vacía o una tableta fracturada.</p>
+      <section data-lab class="lab" aria-label="Laboratorio de inspección">
+        <div class="instrument">
+          <div class="instrument-head"><span>Vista de inspección</span><small>Muestra sintética</small></div>
+          <canvas role="img" aria-label="Blíster sintético de diez cavidades" width="720" height="440"></canvas>
+        </div>
+        <div class="controls">
+          <label for="scenario">Muestra de prueba</label>
+          <select id="scenario">
+            <option value="faltante">Una cavidad vacía</option>
+            <option value="mixta">Cavidad vacía y fractura</option>
+            <option value="completa">Blíster completo</option>
+          </select>
+          <label class="check"><input type="checkbox" checked> Mostrar marcas de detección</label>
+          <div class="result" aria-live="polite" aria-atomic="true">
+            <span class="eyebrow">Tabletas íntegras</span>
+            <strong data-count></strong>
+            <p data-faults></p>
+          </div>
+        </div>
+      </section>
+      <noscript>Activa JavaScript en tu navegador para analizar las muestras.</noscript>
+      <section class="method">
+        <h2>Qué estás probando</h2>
+        <p>La demo genera la imagen de un blíster y mide la proporción de píxeles oscuros en diez regiones conocidas. Una cavidad vacía produce una región oscura amplia. Una grieta produce una franja más pequeña. Puedes ocultar las marcas para inspeccionar la imagen original.</p>
+        <p>Recreación didáctica del tipo de inspección en el que trabajé en Machining Network. El sistema industrial utilizaba YOLOv8 y OpenCV. Aquí el análisis se ejecuta en tu navegador con imágenes sintéticas.</p>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

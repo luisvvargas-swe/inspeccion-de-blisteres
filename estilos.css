@@ -1,0 +1,41 @@
+:root {
+  color-scheme: light;
+  --paper: #f7f7f1;
+  --ink: #182725;
+  --muted: #4b5955;
+  --line: #ccd0c6;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.5 Inter, "Helvetica Neue", Arial, sans-serif; }
+.shell { max-width: 1380px; margin: auto; padding: 0 clamp(20px, 5vw, 78px); }
+header { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 21px 0; border-bottom: 1px solid var(--line); }
+header a { color: inherit; font-size: 14px; text-decoration: none; }
+header a:hover { text-decoration: underline; }
+a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #4b741c; outline-offset: 4px; }
+main { padding: clamp(28px, 5vw, 60px) 0; }
+.eyebrow, .instrument-head small { margin: 0; font: 500 11px/1.5 ui-monospace, monospace; letter-spacing: .075em; text-transform: uppercase; }
+h1, h2, p { margin: 0; }
+h1, h2 { font-weight: 640; letter-spacing: -.055em; line-height: 1.07; }
+h1 { margin: 10px 0; font-size: clamp(40px, 6vw, 82px); }
+h1 span { color: #719645; }
+.intro { color: var(--muted); font-size: clamp(17px, 2vw, 20px); max-width: 730px; margin: 0 0 26px; }
+.lab { display: grid; grid-template-columns: 1.55fr 1fr; gap: 24px; align-items: start; }
+.instrument { background: #152428; color: #e2eadf; border-radius: 8px; overflow: hidden; }
+.instrument-head { padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-bottom: 1px solid #3c4a49; font-size: 13px; }
+.instrument-head small { color: #becbc1; font-size: 10px; }
+canvas { width: 100%; height: auto; display: block; }
+.controls { border: 1px solid var(--line); border-radius: 7px; padding: clamp(16px, 3vw, 27px); }
+.controls label { display: block; font-weight: 600; margin-bottom: 7px; }
+.controls select { width: 100%; padding: 10px; color: inherit; font: inherit; background: white; border: 1px solid #99a39d; border-radius: 4px; }
+.controls .check { display: flex; align-items: center; gap: 8px; margin: 16px 0; font-size: 14px; cursor: pointer; }
+.check input { accent-color: #31503d; }
+.result { padding-top: 18px; border-top: 1px solid var(--line); }
+.result strong { display: block; font-size: 46px; letter-spacing: -.055em; line-height: 1.3; }
+.result p, .method p { color: var(--muted); }
+.method { max-width: 770px; margin-top: 36px; }
+.method h2 { font-size: 29px; }
+.method p { margin-top: 12px; }
+@media (max-width: 680px) {
+  .lab { grid-template-columns: 1fr; gap: 16px; }
+  header a { font-size: 12px; }
+}

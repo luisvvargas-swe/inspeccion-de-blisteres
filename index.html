@@ -2,51 +2,63 @@
 <html lang="es-MX">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f7f1">
-  <meta name="description" content="Inspecciona tabletas en muestras sintéticas de blísteres con el simulador de visión artificial de Luis Vargas.">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#edf5f6">
+  <meta name="description" content="Explora una inspección óptica de tabletas. Compara muestras sintéticas de diez cavidades y localiza ausencias o posibles fracturas.">
   <title>Inspección de blísteres · Luis Vargas</title>
   <link rel="icon" href="favicon.ico">
   <link rel="stylesheet" href="estilos.css">
-  <script src="inspeccion.js" defer></script>
+  <script defer src="inspeccion.js"></script>
 </head>
 <body>
-  <div class="shell">
-    <header>
-      <a href="https://luisvvargas-swe.github.io/#proyectos">← Portafolio de Luis Vargas</a>
-      <a href="https://github.com/luisvvargas-swe/inspeccion-de-blisteres">Código en GitHub ↗</a>
-    </header>
-    <main>
-      <p class="eyebrow">Visión artificial</p>
-      <h1>Inspección de blísteres<span>.</span></h1>
-      <p class="intro">Elige una muestra y observa dónde se detectan una cavidad vacía o una tableta fracturada.</p>
-      <section data-lab class="lab" aria-label="Laboratorio de inspección">
-        <div class="instrument">
-          <div class="instrument-head"><span>Vista de inspección</span><small>Muestra sintética</small></div>
-          <canvas role="img" aria-label="Blíster sintético de diez cavidades" width="720" height="440"></canvas>
-        </div>
-        <div class="controls">
-          <label for="scenario">Muestra de prueba</label>
-          <select id="scenario">
-            <option value="faltante">Una cavidad vacía</option>
-            <option value="mixta">Cavidad vacía y fractura</option>
-            <option value="completa">Blíster completo</option>
-          </select>
+  <a class="skip" href="#laboratorio">Saltar al laboratorio</a>
+  <header class="mast">
+    <div class="inner mast-inner">
+      <div class="brand"><span class="reticle" aria-hidden="true"></span>Inspección óptica</div>
+      <nav aria-label="Enlaces del proyecto">
+        <a href="https://github.com/luisvvargas-swe/inspeccion-de-blisteres">Código <span aria-hidden="true">↗</span></a>
+        <a href="https://luisvvargas-swe.github.io/#proyectos">Portafolio <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+  <main class="inner" id="laboratorio" data-lab>
+    <div class="intro">
+      <div><h1>Inspección de blísteres</h1>
+      <p>Examina diez cavidades y localiza tabletas faltantes o fracturadas.</p></div>
+      <div class="sample"><label for="scenario">Muestra sintética</label>
+        <select id="scenario">
+          <option value="faltante">Una cavidad vacía</option>
+          <option value="mixta">Cavidad vacía y fractura</option>
+          <option value="completa">Blíster completo</option>
+        </select>
+      </div>
+    </div>
+    <section class="console" aria-label="Inspección de la muestra seleccionada">
+      <div class="viewer">
+        <div class="viewer-head"><h2>Campo de inspección</h2><span>720 × 440 px</span></div>
+        <canvas width="720" height="440" role="img" aria-label="Blíster sintético de diez cavidades"></canvas>
+        <div class="viewer-foot">
           <label class="check"><input type="checkbox" checked> Mostrar marcas de detección</label>
-          <div class="result" aria-live="polite" aria-atomic="true">
-            <span class="eyebrow">Tabletas íntegras</span>
-            <strong data-count></strong>
-            <p data-faults></p>
-          </div>
+          <span class="scale">2 filas × 5 columnas</span>
         </div>
-      </section>
-      <noscript>Activa JavaScript en tu navegador para analizar las muestras.</noscript>
-      <section class="method">
-        <h2>Qué estás probando</h2>
-        <p>La demo genera la imagen de un blíster y mide la proporción de píxeles oscuros en diez regiones conocidas. Una cavidad vacía produce una región oscura amplia. Una grieta produce una franja más pequeña. Puedes ocultar las marcas para inspeccionar la imagen original.</p>
-        <p>Recreación didáctica del tipo de inspección en el que trabajé en Machining Network. El sistema industrial utilizaba YOLOv8 y OpenCV. Aquí el análisis se ejecuta en tu navegador con imágenes sintéticas.</p>
-      </section>
-    </main>
-  </div>
+      </div>
+      <aside class="diagnosis" aria-label="Resultado de la inspección">
+        <div class="diagnosis-head"><span class="tiny-target" aria-hidden="true"></span><h2>Lectura óptica</h2></div>
+        <div class="count-block"><span class="term">Tabletas íntegras</span><strong data-count aria-label="Tabletas íntegras">—</strong></div>
+        <div class="position-block"><h3>Mapa de cavidades</h3><div class="map" data-map aria-hidden="true"></div>
+          <div class="key"><span><i class="normal"></i>Íntegra</span><span><i class="review"></i>Revisión</span></div>
+        </div>
+        <div class="report" role="status" aria-live="polite" aria-atomic="true">
+          <span class="term">Observaciones</span><p data-faults></p>
+        </div>
+      </aside>
+    </section>
+    <noscript>Activa JavaScript para analizar las muestras de este laboratorio.</noscript>
+    <details class="method"><summary>Cómo funciona la detección</summary>
+      <div><p>La cámara simulada produce una imagen de diez cavidades. El detector mide la proporción de píxeles oscuros dentro de cada región. Una cavidad vacía genera una zona oscura amplia. Una posible fractura deja una franja más estrecha.</p>
+      <p>Esta recreación didáctica se inspira en mi trabajo en Machining Network con YOLOv8 y OpenCV. Aquí se usa un método independiente basado en intensidad, con imágenes sintéticas analizadas en el navegador.</p></div>
+    </details>
+    <footer><span>Luis Vargas</span><span>Visión artificial aplicada</span></footer>
+  </main>
 </body>
 </html>

@@ -22,11 +22,19 @@
   function makeSample(scenario) {
     const sample = document.createElement('canvas'); sample.width = width; sample.height = height;
     const ctx = sample.getContext('2d', {willReadFrequently:true});
-    ctx.fillStyle = '#152428'; ctx.fillRect(0,0,width,height);
-    for (let y=0; y<height; y+=7) for(let x=0; x<width; x+=7) {
-      ctx.fillStyle = (x+y)%3 ? '#253539' : '#304044'; ctx.fillRect(x,y,1,1);
+    ctx.fillStyle = '#e0e8e9';
+    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = '#bdcdd0';
+    for (let y = 4; y < height; y += 12) {
+      for (let x = 4; x < width; x += 12) ctx.fillRect(x, y, 1, 1);
     }
-    ctx.save(); ctx.shadowColor = '#060e10'; ctx.shadowBlur = 24; ctx.shadowOffsetY = 12;
+    ctx.fillStyle = '#49676c';
+    ctx.font = '13px monospace';
+    ctx.textAlign = 'center';
+    for (let col = 0; col < columns; col++) ctx.fillText(String(col + 1), cells[col].x, 62);
+    for (let row = 0; row < rows; row++) ctx.fillText(String(row + 1), 43, cells[row * columns].y + 4);
+    ctx.textAlign = 'start';
+    ctx.save(); ctx.shadowColor = '#8b9b9d'; ctx.shadowBlur = 12; ctx.shadowOffsetY = 8;
     const sheet = ctx.createLinearGradient(64,70,640,370);
     [[0,'#b2b9b4'],[.23,'#6d7e7c'],[.48,'#b8c2bc'],[.72,'#758789'],[1,'#b6c3c0']].forEach(([i,v])=>sheet.addColorStop(i,v));
     rounded(ctx,68,87,584,255,19,sheet); ctx.restore();
@@ -74,15 +82,15 @@
     const ctx=canvas.getContext('2d'); ctx.drawImage(sample,0,0);
     if(annotations) cells.forEach(({x,y},i)=>{
       const s=result[i], size=46, tip=12;
-      ctx.lineWidth=2;ctx.strokeStyle=s==='presente'?'#ccff80':'#ffbd70';
+      ctx.lineWidth=2;ctx.strokeStyle=s==='presente'?'#00646c':'#9f3926';
       [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([dx,dy])=>{
         const a=x+dx*size,b=y+dy*size;
         ctx.beginPath();ctx.moveTo(a-dx*tip,b);ctx.lineTo(a,b);ctx.lineTo(a,b-dy*tip);ctx.stroke();
       });
       if(s!=='presente') {
         const label=s==='vacío'?'VACÍO':'FRACTURA'; ctx.font='bold 13px monospace';
-        rounded(ctx,x-size,y+size-2,ctx.measureText(label).width+12,17,2,'#ffc27b');
-        ctx.fillStyle='#26302b';ctx.fillText(label,x-size+6,y+size+11);
+        rounded(ctx,x-size,y+size-2,ctx.measureText(label).width+12,17,2,'#9c3421');
+        ctx.fillStyle='#ffffff';ctx.fillText(label,x-size+6,y+size+11);
       }
     });
     const marks=result.filter(s=>s!=='presente').length;
@@ -96,7 +104,17 @@
     const result=render(canvas,select.value,marks.checked);
     const faults=result.map((state,i)=>({state,i})).filter(({state})=>state!=='presente');
     const line=(i)=>'Fila '+(Math.floor(i/columns)+1)+', columna '+(i%columns+1);
-    lab.querySelector('[data-count]').textContent=String(10-faults.length)+'/10';
+    const count = lab.querySelector('[data-count]');
+    const denominator = document.createElement('small');
+    denominator.textContent = '/10';
+    count.replaceChildren(String(cells.length - faults.length), denominator);
+    const map = lab.querySelector('[data-map]');
+    map.replaceChildren(...result.map((status, i) => {
+      const cell = document.createElement('span');
+      cell.textContent = String(i % columns + 1);
+      if (status !== 'presente') cell.className = 'fault';
+      return cell;
+    }));
     lab.querySelector('[data-faults]').textContent=faults.length ? faults.map(({i,state})=>line(i)+' · '+(state==='vacío'?'cavidad vacía':'posible fractura')).join('. ')+'.' : 'Las diez cavidades contienen una tableta íntegra.';
   }
   select.addEventListener('change',update); marks.addEventListener('change',update); update();
